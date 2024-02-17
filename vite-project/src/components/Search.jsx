@@ -12,7 +12,7 @@ export default function Search () {
         noValidate
         autoComplete="off"
       >
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" color='success' />
+        <TextField id="outlined-basic" label="Search" variant="outlined" color='success' />
       </Box>
     )
 }
