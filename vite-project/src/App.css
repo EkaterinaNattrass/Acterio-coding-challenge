@@ -3,7 +3,6 @@
 }
 
 #root {
-  height: 100vh;
   background-color: #010440 ;
   text-align: center;
 }
@@ -45,4 +44,16 @@ to {
 50% {
   border-color: orange;
 } 
+}
+
+.posts {
+  color: white;
+  font-family: 'Courier Prime', monospace;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background-color: white;
+  padding: 4px;
 }

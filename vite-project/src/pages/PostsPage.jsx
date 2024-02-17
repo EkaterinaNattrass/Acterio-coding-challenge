@@ -1,34 +1,43 @@
-import * as React from 'react';
+// import * as React from 'react';
+import { useState, useEffect, /* useParams, useHistory */ } from 'react';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
- 
-  const card = (
-    <React.Fragment>
-      <CardContent>
-        <Typography sx={{ fontSize: 20 }} color="text" gutterBottom>
-          Title of the post
-        </Typography>
-        <Typography variant="body2">
-          Here comes the body of the post
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Tags
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color='secondary'>Learn More</Button>
-      </CardActions>
-    </React.Fragment>
-  );
+import Grid from '@mui/material/Unstable_Grid2';
+import { Link } from "react-router-dom";
+
+const API_URL = "https://dummyjson.com/posts";
   
   export default function PostsPage() {
+    const [posts, setPosts] = useState([]);
+    /* const { id } = useParams();
+    const history = useHistory();
+    const handleProceed = (e) => {
+      history.push(`/products/${id}`)
+    } */
+
+
+    useEffect(() => {
+        async function getPosts () {
+        const response = await fetch(API_URL);
+        const result = await response.json();
+        const APIposts = result.posts;
+        setPosts(APIposts);
+    } getPosts();
+    });
     return (
-      <Box sx={{ minWidth: 275 }}>
-        <Card variant="outlined">{card}</Card>
-      </Box>
-    );
+      <Box sx={{ flexGrow: 1, p:4 }}>
+      <h1 className='posts'>Posts</h1>
+      <Grid container spacing={2}>
+        { posts.map((post) => (
+          <Grid key={post.id} item xs={4}>
+          <div className='card'>
+            <h2>{post.title}</h2>
+            <p>{post.body}</p>
+         <Link to={`/posts/${post.id}`}><Button variant="outlined">Learn more</Button></Link>  
+            </div>
+        </Grid>
+        ))}  
+      </Grid>
+    </Box> 
+    ); 
   }
