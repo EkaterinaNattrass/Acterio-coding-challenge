@@ -1,42 +1,43 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Rating from '@mui/material/Rating';
-import { useState } from 'react';
- 
-  const card = (
-    <React.Fragment>
-      <CardContent>
-        <Typography sx={{ fontSize: 20 }} color="text" gutterBottom>
-          Title of the post
-        </Typography>
-        <Typography variant="body2">
-          Here comes the body of the post
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Tags
-        </Typography>
-      </CardContent>
-      <Typography component="legend">Rating</Typography>
-    </React.Fragment>
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Unstable_Grid2";
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+
+export default function PostDetailsPage() {
+  const [post, setPost] = useState({});
+  const { id } = useParams();
+  const API_URL = "https://dummyjson.com/posts/" + id;
+
+  useEffect(() => {
+    async function GetPosts() { 
+      const response = await fetch(API_URL);
+      const result = await response.json();
+      setPost(result);
+    }
+    GetPosts();
+  });
+  return (
+    <div className="Posts">
+    <Box sx={{ flexGrow: 1, p: 4 }}>
+      <Grid container spacing={2}>
+          <Grid key={post.id} xs={4}>
+            <div className="card">
+              <h3>{post.title}</h3>
+              <p>{post.body}</p>
+              <Link to={'/posts'}>
+              <Button variant="contained" color="success">
+                  React
+                </Button>
+                <Button variant="outlined" color="success">
+                  Back to the posts
+                </Button>
+              </Link>
+            </div>
+          </Grid>
+      </Grid>
+    </Box>
+    </div>
   );
-  
-  export default function PostDetailsPage() {
-    const [rating, setRating] = useState(3)
-    return (
-      <Box sx={{ minWidth: 275 }}>
-        <Card variant="outlined">{card}
-        <h3>Current rating: {rating}</h3>
-        <Rating
-        name="simple-controlled"
-        value={rating}
-        onChange={(event, newValue) => {
-          setRating(newValue);
-        }}
-      />
-        </Card>
-      </Box>
-    );
-  }
+}
