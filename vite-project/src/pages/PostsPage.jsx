@@ -16,6 +16,7 @@ const API_URL = "https://dummyjson.com/posts";
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
+  const [error, setError] = useState(null);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -24,76 +25,95 @@ export default function PostsPage() {
 
   useEffect(() => {
     async function getPosts() {
-      const response = await fetch(API_URL);
-      const result = await response.json();
-      const APIposts = result.posts;
-      setPosts(APIposts);
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const result = await response.json();
+        const APIposts = result.posts;
+        setPosts(APIposts);
+      } catch (err) {
+        setError("Sorry, something went wrong");
+      }
     }
     getPosts();
   });
   return (
     <div className="PostsContainer">
-      <Box sx={{ flexGrow: 1, p: 6 }}>
-        <Typography variant="h3" color="text.secondary">
-          Latest Posts
-        </Typography>
-        <Box
-          onSubmit={handleOnSubmit}
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 2, width: "25ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            onChange={(e) => setSearch(e.target.value)}
-            id="outlined-basic"
-            name="searchQuery"
-            type="search"
-            label="Search the title"
-            variant="outlined"
-            color="success"
-          />
-        </Box>
-        <Grid container spacing={6}>
-          {posts
-            .filter((post) => {
-              return search.toLowerCase() === ""
-                ? post
-                : post.title.toLowerCase().includes(search);
-            })
-            .map((post) => (
-              <Grid key={post.id} xs={6}>
-                <Card sx={{ maxWidth: 600 }}>
-                  <CardMedia
-                    sx={{ height: 200 }}
-                    image="https://images.unsplash.com/photo-1490682143684-14369e18dce8?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    title="sunset in the mountains"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {post.title}
-                    </Typography>
-                    <Typography variant="body1" color="text.secondary" noWrap>
-                      {post.body}
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Link to={`/posts/${post.id}`}>
-                      <Button variant="outlined" color="success" sx={{ m: 2 }}>
-                        Learn more
-                      </Button>
-                    </Link>
-                      <Button disabled variant="outlined" color="error" startIcon={<DeleteIcon />}>
+      {error && <Button color="error">{error}</Button>}
+      {!error && (
+        <Box sx={{ flexGrow: 1, p: 6 }}>
+          <Typography variant="h3" color="text.secondary">
+            Latest Posts
+          </Typography>
+          <Box
+            onSubmit={handleOnSubmit}
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 2, width: "25ch" },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              onChange={(e) => setSearch(e.target.value)}
+              id="outlined-basic"
+              name="searchQuery"
+              type="search"
+              label="Search the title"
+              variant="outlined"
+              color="success"
+            />
+          </Box>
+          <Grid container spacing={6}>
+            {posts
+              .filter((post) => {
+                return search.toLowerCase() === ""
+                  ? post
+                  : post.title.toLowerCase().includes(search);
+              })
+              .map((post) => (
+                <Grid key={post.id} xs={6}>
+                  <Card sx={{ maxWidth: 600 }}>
+                    <CardMedia
+                      sx={{ height: 200 }}
+                      image="https://images.unsplash.com/photo-1490682143684-14369e18dce8?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      title="sunset in the mountains"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {post.title}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary" noWrap>
+                        {post.body}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Link to={`/posts/${post.id}`}>
+                        <Button
+                          variant="outlined"
+                          color="success"
+                          sx={{ m: 2 }}
+                        >
+                          Learn more
+                        </Button>
+                      </Link>
+                      <Button
+                        disabled
+                        variant="outlined"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                      >
                         Delete
                       </Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
-        </Grid>
-      </Box>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+          </Grid>
+        </Box>
+      )}
     </div>
   );
 }
