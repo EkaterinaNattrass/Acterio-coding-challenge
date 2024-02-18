@@ -85,11 +85,9 @@ export default function PostsPage() {
                         Learn more
                       </Button>
                     </Link>
-                    <Link>
-                      <Button variant="outlined" color="error" startIcon={<DeleteIcon />}>
+                      <Button disabled variant="outlined" color="error" startIcon={<DeleteIcon />}>
                         Delete
                       </Button>
-                    </Link>
                   </CardActions>
                 </Card>
               </Grid>

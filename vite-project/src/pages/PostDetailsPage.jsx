@@ -18,12 +18,12 @@ export default function PostDetailsPage() {
   const API_URL = "https://dummyjson.com/posts/" + id;
 
   useEffect(() => {
-    async function GetPosts() {
+    async function GetPost() {
       const response = await fetch(API_URL);
       const result = await response.json();
       setPost(result);
     }
-    GetPosts();
+    GetPost();
   });
 
   const [additionalReactions, setAdditionalReactions] = useState(0);
