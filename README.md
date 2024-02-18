@@ -28,4 +28,5 @@ of reactions.
 `npm install`  
 
 3. Run the development server and build the project  
+`npm run build`  
 `npm run dev`
