@@ -18,7 +18,11 @@ of reactions.
 - Node.js
 - Node Package Manager
 
-## Installation and run
+## Deployed application 
+
+[https://acterio-f99d9925b6e0.herokuapp.com/](https://acterio-f99d9925b6e0.herokuapp.com/)
+
+## Installation and run locally
 
 1. Clone the repository  
 `git clone https://github.com/EkaterinaNattrass/Acterio-coding-challenge.git`
