@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 export default function HomePage() {
   return (
     <div className="HomePage">
-      <Typography variant="h2">
+      <Typography variant="h2" sx={{mb: 8}}>
         Reach New Heights: <br /> Explore, Inspire, Conquer!
       </Typography>
       <div className="ButtonContainer">
