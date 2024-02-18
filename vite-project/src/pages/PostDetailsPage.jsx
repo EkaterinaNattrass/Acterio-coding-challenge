@@ -18,7 +18,7 @@ export default function PostDetailsPage() {
 
   const updateReaction = () => {
     fetch(API_URL, {
-  method: 'PUT', /* or PATCH */
+  method: 'PUT',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     title: 'iPhone Galaxy +1'
@@ -53,6 +53,12 @@ export default function PostDetailsPage() {
               <Typography variant="body1" color="text.secondary">
                 {post.body}
               </Typography>
+              <Typography sx={{mt:2}} variant="body2" color="text.secondary">
+                {post.tags && post.tags.map((tag, index) => (
+                  <span key={index}>#{tag}</span>
+                ))
+                }
+              </Typography>
             </CardContent>
             <CardActions>
               <div className="ButtonContainer">
@@ -62,7 +68,7 @@ export default function PostDetailsPage() {
                   </Button>
                 </Link>
                 <Button sx={{ m: 2 }} variant="contained" color="success">
-                  <FavoriteIcon />
+                 {post.reactions} <FavoriteIcon sx={{ml:1}} />
                 </Button>
               </div>
             </CardActions>
