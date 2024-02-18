@@ -53,8 +53,9 @@ export default function PostDetailsPage() {
           <Grid container spacing={6}>
             <Card key={post.id} sx={{ maxWidth: 600, p: 6 }}>
               <CardMedia
+              component="img"
                 sx={{ height: 200 }}
-                image="https://images.unsplash.com/photo-1490682143684-14369e18dce8?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                image="/static/post-image.jpg"
                 title="sunset in the mountains"
               />
               <CardContent>

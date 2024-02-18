@@ -3,7 +3,7 @@
 }
 
 .HomePage {
-  background-image: url(/src/assets/hiking-background.jpg);
+  background-image: url(/static/hiking-background.jpg);
   background-size: cover;
   height: 100vh;
   display: flex;
