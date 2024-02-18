@@ -3,17 +3,30 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import DeletePost from "../components/DeletePost";
+// import DeletePost from "../components/DeletePost";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export default function PostDetailsPage() {
   const [post, setPost] = useState({});
   const { id } = useParams();
   const API_URL = "https://dummyjson.com/posts/" + id;
+
+  const updateReaction = () => {
+    fetch(API_URL, {
+  method: 'PUT', /* or PATCH */
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    title: 'iPhone Galaxy +1'
+  })
+})
+.then(res => res.json())
+.then(console.log);
+  }
 
   useEffect(() => {
     async function GetPosts() {
@@ -24,7 +37,7 @@ export default function PostDetailsPage() {
     GetPosts();
   });
   return (
-    <div className="PostsContainer">
+    <div className="PostContainer">
       <Box sx={{ flexGrow: 1, p: 6 }}>
         <Grid container spacing={6}>
           <Card key={post.id} sx={{ maxWidth: 600, p: 6 }}>
@@ -43,18 +56,15 @@ export default function PostDetailsPage() {
             </CardContent>
             <CardActions>
               <div className="ButtonContainer">
-                <Link>
-                <Button variant="contained" color="success">
-                  React
+                <Link to={"/posts"}>
+                  <Button variant="outlined" color="success">
+                    Back to the posts
+                  </Button>
+                </Link>
+                <Button sx={{ m: 2 }} variant="contained" color="success">
+                  <FavoriteIcon />
                 </Button>
-              </Link>
-              <Link to={"/posts"}>
-                <Button variant="outlined" color="success">
-                  Back to the posts
-                </Button>
-              </Link>
               </div>
-              
             </CardActions>
           </Card>
         </Grid>

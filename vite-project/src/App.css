@@ -17,9 +17,14 @@
   margin-top: 40px;
 }
 
-.PostsContainer {
-  height: 100vh;
+.PostsContainer, .PostContainer {
   background-color: whitesmoke;
   padding: 4px;
+}
+
+.PostContainer {
+  height: 100vh;
+  display: grid;
+  place-items: center;
 }
 
