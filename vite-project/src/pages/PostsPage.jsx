@@ -10,7 +10,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from "@mui/icons-material/Delete";
-// import DeletePost from "../components/DeletePost";
 
 const API_URL = "https://dummyjson.com/posts";
 

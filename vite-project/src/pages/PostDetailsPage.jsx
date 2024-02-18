@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-// import DeletePost from "../components/DeletePost";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -13,20 +12,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export default function PostDetailsPage() {
   const [post, setPost] = useState({});
+
+
   const { id } = useParams();
   const API_URL = "https://dummyjson.com/posts/" + id;
-
-  const updateReaction = () => {
-    fetch(API_URL, {
-  method: 'PUT',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    title: 'iPhone Galaxy +1'
-  })
-})
-.then(res => res.json())
-.then(console.log);
-  }
 
   useEffect(() => {
     async function GetPosts() {
@@ -36,6 +25,12 @@ export default function PostDetailsPage() {
     }
     GetPosts();
   });
+
+  const [additionalReactions, setAdditionalReactions] = useState(0);
+  const increment = () => {
+    setAdditionalReactions((r) => r + 1);
+  };
+  
   return (
     <div className="PostContainer">
       <Box sx={{ flexGrow: 1, p: 6 }}>
@@ -50,10 +45,16 @@ export default function PostDetailsPage() {
               <Typography gutterBottom variant="h4" component="div">
                 {post.title}
               </Typography>
+              <Typography gutterBottom variant="body2" color="text.secondary" >
+                Post #{post.id}
+              </Typography>
               <Typography variant="body1" color="text.secondary">
                 {post.body}
               </Typography>
-              <Typography sx={{mt:2}} variant="body2" color="text.secondary">
+              <Typography sx={{mt:2}} gutterBottom variant="body2" color="text.secondary" >
+                Written by: User #{post.userId}
+              </Typography>
+              <Typography sx={{mt:1}} variant="body2" color="text.secondary">
                 {post.tags && post.tags.map((tag, index) => (
                   <span key={index}>#{tag}</span>
                 ))
@@ -67,8 +68,8 @@ export default function PostDetailsPage() {
                     Back to the posts
                   </Button>
                 </Link>
-                <Button sx={{ m: 2 }} variant="contained" color="success">
-                 {post.reactions} <FavoriteIcon sx={{ml:1}} />
+                <Button onClick={increment} sx={{ m: 2 }} variant="contained" color="success">
+                 {post.reactions + additionalReactions} <FavoriteIcon sx={{ml:1}} />
                 </Button>
               </div>
             </CardActions>
