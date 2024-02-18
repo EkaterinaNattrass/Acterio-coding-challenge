@@ -16,7 +16,6 @@ const API_URL = "https://dummyjson.com/posts";
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState("");
-  const [error, setError] = useState(null);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -34,15 +33,13 @@ export default function PostsPage() {
         const APIposts = result.posts;
         setPosts(APIposts);
       } catch (err) {
-        setError("Sorry, something went wrong");
+        console.log("Something went wrong");
       }
     }
     getPosts();
   });
   return (
     <div className="PostsContainer">
-      {error && <Button color="error">{error}</Button>}
-      {!error && (
         <Box sx={{ flexGrow: 1, p: 6 }}>
           <Typography variant="h3" color="text.secondary">
             Latest Posts
@@ -113,7 +110,6 @@ export default function PostsPage() {
               ))}
           </Grid>
         </Box>
-      )}
     </div>
   );
 }
