@@ -13,6 +13,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 export default function PostDetailsPage() {
   const [post, setPost] = useState({});
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
   const API_URL = "https://dummyjson.com/posts/" + id;
@@ -20,11 +21,13 @@ export default function PostDetailsPage() {
   useEffect(() => {
     async function getPost() {
       try {
+        setIsLoading(true);
         const response = await fetch(API_URL);
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
         const result = await response.json();
+        setIsLoading(false);
         setPost(result);
       } catch (err) {
         setError("Sorry, something went wrong");
@@ -34,26 +37,32 @@ export default function PostDetailsPage() {
   }, [API_URL]);
 
   const [additionalReactions, setAdditionalReactions] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
   const increment = () => {
+    if (!isClicked) setIsClicked(true);
     setAdditionalReactions((r) => r + 1);
   };
 
   return (
     <div className="PostContainer">
-      {error && (
+      {error ? (
         <Link to="/posts">
           <Button color="error">
             {error} <br />
             Back to the posts
           </Button>
         </Link>
-      )}
-      {!error && (
+      ) :
+      isLoading ? (
+        <Typography gutterBottom variant="body1" color="text.secondary">
+          Loading...
+        </Typography>
+      ) : (
         <Box sx={{ flexGrow: 1, p: 6 }}>
           <Grid container spacing={6}>
             <Card key={post.id} sx={{ maxWidth: 600, p: 6 }}>
               <CardMedia
-              component="img"
+                component="img"
                 sx={{ height: 200 }}
                 image="/static/post-image.jpg"
                 title="sunset in the mountains"
@@ -96,6 +105,7 @@ export default function PostDetailsPage() {
                   </Link>
                   <Button
                     onClick={increment}
+                    disabled={isClicked}
                     sx={{ m: 2 }}
                     variant="contained"
                     color="success"

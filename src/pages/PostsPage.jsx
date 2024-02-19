@@ -26,9 +26,6 @@ export default function PostsPage() {
     async function getPosts() {
       try {
         const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
         const result = await response.json();
         const APIposts = result.posts;
         setPosts(APIposts);
